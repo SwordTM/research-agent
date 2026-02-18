@@ -63,21 +63,16 @@ export default function Home() {
               } else if (data.type === "complete") {
                 // Analysis complete
                 setProgressLogs((prev) => [...prev, "[SUCCESS] Analysis complete!"]);
-                // Use the first generated slide if available, or a default
-                // The backend might return a list of slides or just success
-                // For now, we'll try to construct the URL based on the first concept if available
-                // or just use the first slide found in the logs if we parsed them?
-                // The previous implementation hardcoded "/slides/example.html"
-                // Let's see if the data contains the result
 
                 if (data.data && Array.isArray(data.data.concepts) && data.data.concepts.length > 0) {
-                  // If we have concepts, try to use the ID of the first one
-                  const firstConceptId = data.data.concepts[0].id;
-                  setSlideUrl(`/slides/${firstConceptId}.html`);
+                  // Use the slide_url provided by the backend, or fallback to the ID-based path
+                  const firstConcept = data.data.concepts[0];
+                  if (firstConcept.slide_url) {
+                    setSlideUrl(firstConcept.slide_url);
+                  } else {
+                    setSlideUrl(`/slides/${firstConcept.id}.html`);
+                  }
                 } else {
-                  // Fallback or try to find from logs? 
-                  // Let's assume the user will pick from a list later, but for now show the first one
-                  // We can also check if the backend returned a specific slide url
                   setSlideUrl("/slides/example.html");
                 }
               }

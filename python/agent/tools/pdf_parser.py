@@ -2,6 +2,7 @@
 
 import PyPDF2
 import pdfplumber
+import sys
 from typing import Dict, List, Any
 from pathlib import Path
 
@@ -39,15 +40,15 @@ class PDFParserTool:
             "figures": []
         }
         
-        print(f"      -> Opening PDF file...")
+        print(f"-> Opening PDF file...")
         # Extract text using pdfplumber (better for layout)
         with pdfplumber.open(pdf_path) as pdf:
             result["num_pages"] = len(pdf.pages)
-            print(f"      -> Found {result['num_pages']} pages")
+            print(f"-> Found {result['num_pages']} pages")
             
             for i, page in enumerate(pdf.pages, 1):
                 if i == 1 or i % 5 == 0 or i == result["num_pages"]:
-                    print(f"      -> Processing page {i}/{result['num_pages']}...")
+                    print(f"-> Processing page {i}/{result['num_pages']}...")
                     
                 page_text = page.extract_text() or ""
                 result["pages"].append({
@@ -63,7 +64,7 @@ class PDFParserTool:
                         {"page": i, "table": table} for table in tables
                     ])
         
-        print(f"      -> Extracting metadata...")
+        print(f"-> Extracting metadata...")
         # Extract metadata using PyPDF2
         with open(pdf_path, 'rb') as file:
             pdf_reader = PyPDF2.PdfReader(file)
@@ -75,7 +76,7 @@ class PDFParserTool:
                     "creator": pdf_reader.metadata.get('/Creator', ''),
                 }
         
-        print(f"      -> PDF parsing complete")
+        print(f"-> PDF parsing complete")
         return result
     
     def extract_page_range(self, pdf_path: str, start_page: int, end_page: int) -> str:

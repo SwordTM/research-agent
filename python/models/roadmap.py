@@ -22,6 +22,7 @@ class Concept(BaseModel):
     page_numbers: List[int] = Field(default_factory=list)
     related_concepts: List[str] = Field(default_factory=list)
     importance_score: float = Field(ge=0.0, le=1.0, default=0.5)
+    slide_url: Optional[str] = Field(default=None, description="URL to the generated Manim slides.")
     
     
 class DiagramInfo(BaseModel):

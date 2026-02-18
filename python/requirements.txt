@@ -3,8 +3,10 @@ langchain>=0.1.0
 langchain-google-genai>=0.0.6
 langchain-community>=0.0.20
 
-# MCP (Model Context Protocol)
-mcp>=0.1.0
+# OpenAI / OpenRouter
+openai>=1.0.0
+langchain-openai>=0.1.0
+
 
 # PDF Processing
 pypdf2>=3.0.0

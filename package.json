@@ -4,11 +4,9 @@
   "description": "Research Agent - AI-powered research paper analysis with Manim slides",
   "private": true,
   "scripts": {
-    "dev": "powershell -ExecutionPolicy Bypass -File ./dev-start.ps1",
-    "dev:single": "powershell -ExecutionPolicy Bypass -File ./dev-start-single.ps1",
+    "dev": "cd research-agent-web && npm run dev",
     "setup": "powershell -ExecutionPolicy Bypass -File ./setup-env.ps1",
     "web": "cd research-agent-web && npm run dev",
-    "mcp": "cd python && .\\venv\\Scripts\\Activate.ps1 && python agent\\mcp_server.py",
     "test:manim": "cd python && .\\venv\\Scripts\\Activate.ps1 && python test_manim.py"
   },
   "workspaces": [
@@ -18,8 +16,7 @@
     "research",
     "ai",
     "manim",
-    "langchain",
-    "mcp"
+    "langchain"
   ],
   "author": "",
   "license": "MIT"
