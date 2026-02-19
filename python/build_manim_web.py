@@ -35,17 +35,20 @@ void main() {
     print('Container #canvas-container not found!');
     return;
   }
-  
+
   // Initialize Display
   var display = Canvas2DDisplay(container);
-  
-  // Initialize Scene
-  // Note: TemplateScene must be defined in the user_code
-  var scene = TemplateScene();
-  
-  // Bind Display to Scene and Run
-  scene.bindDisplay(display);
-  runScene(scene);
+
+  // Loop the scene continuously
+  Future<void> runLoop() async {
+    while (true) {
+      var scene = TemplateScene();
+      scene.bindDisplay(display);
+      await scene.run();
+    }
+  }
+
+  runLoop();
 }
 """
 

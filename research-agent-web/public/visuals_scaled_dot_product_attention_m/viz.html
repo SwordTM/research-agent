@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manim Web Visualization</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+  </style>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+  <div id="canvas-container"></div>
+  <script>
+    var mainLoaded = false;
+
+    function loadMain() {
+      if (mainLoaded) return;
+      mainLoaded = true;
+      console.log("Loading main.dart.js...");
+      var script = document.createElement('script');
+      script.src = 'main.dart.js';
+      document.body.appendChild(script);
+    }
+
+    // Try to wait for MathJax, but don't block forever
+    var attempts = 0;
+    function checkMathJax() {
+      attempts++;
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        console.log("MathJax loaded, starting Manim...");
+        loadMain();
+      } else if (attempts > 50) {
+        // After 5 seconds, start anyway even without MathJax
+        console.warn("MathJax not loaded after 5s, starting Manim anyway...");
+        loadMain();
+      } else {
+        setTimeout(checkMathJax, 100);
+      }
+    }
+
+    // Start checking immediately on DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkMathJax);
+    } else {
+      checkMathJax();
+    }
+  </script>
+</body>
+
+</html>
